@@ -7,6 +7,7 @@ Created on Thu Feb 18 2021
 
 import sra_gen as gen
 import sra_report as rep
+from pathlib import Path
 
 import os
 import tensorflow as tf
@@ -17,6 +18,12 @@ import numpy as np
 from IPython import display
 
 pathw = input("please input file path: ")
+if not Path("reports").exists():
+    os.mkdir("reports")
+
+if not Path("results").exists():
+    os.mkdir("results")
+
 os.mkdir('reports/' + pathw)
 os.mkdir('results/' + pathw)
 
