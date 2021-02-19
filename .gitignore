@@ -1,0 +1,10 @@
+/reports/*
+/results/*
+
+*.xlsx
+*.xls
+*.csv 
+*.jpg 
+*.png 
+*.doc 
+*.docx
