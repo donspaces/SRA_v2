@@ -1,5 +1,7 @@
 /reports/
-/results/
+/data/
+/__pycache__/
+nohup.out
 sra_local.py
 
 *.xlsx
