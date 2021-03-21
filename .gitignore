@@ -1,5 +1,5 @@
-/reports/*
-/results/*
+/reports/
+/data/
 
 *.xlsx
 *.xls

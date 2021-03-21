@@ -5,7 +5,6 @@ Created on Sat Oct 24 16:05:08 2020
 @author: donsp
 """
 
-import sra_local as sra
 import tensorflow as tf
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -16,7 +15,7 @@ from IPython import display
 
 
 def gen_report(csv, pred, pathn):
-    mpl.rcParams["font.sans-serif"] = ["SimHei"]
+    mpl.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
     mpl.rcParams["axes.unicode_minus"] = False
     mpl.rcParams["font.size"] = 30
 
@@ -27,7 +26,7 @@ def gen_report(csv, pred, pathn):
 
     #Get General Predictions of AI
     #predict = sra.predict(test_data)
-    predict = pd.read_excel('results/' + pred, engine="openpyxl", sheet_name="result")
+    predict = pd.read_excel('reports/' + pred, engine="openpyxl", sheet_name="result")
 
     #Plot dist for each risk type in pie
     type1 = test_data['隐患类型1'].count()

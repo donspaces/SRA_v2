@@ -60,4 +60,4 @@ def data_gen(test_set, savename):
     prediction_data["consequence"] = sample_data["潜在后果"]
     prediction_data["prediction"] = levels
     display.display(prediction_data)
-    prediction_data.to_excel('results/' + savename, sheet_name="result")
+    prediction_data.to_excel('reports/' + savename, sheet_name="result")
