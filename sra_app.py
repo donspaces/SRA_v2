@@ -13,6 +13,7 @@ def main():
                 rep.reportflow(i)
                 shutil.rmtree(pathr)
                 print("successfully processed the data.")
+        print("all datas in report folder are the latest version.")
     except Exception as e:
         print("app caught an error due to", e.args)
 
