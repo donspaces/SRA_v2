@@ -12,6 +12,7 @@ Original file is located at
 from __future__ import print_function
 import pandas as pd
 import tensorflow as tf
+from tensorflow.keras import optimizers
 import tensorflow_datasets as tfds
 import numpy as np
 import jieba
@@ -29,9 +30,9 @@ Rep_Jan_2020_T = pd.read_excel('E:/training_data/zxjh/zxjh-training-data/zxjh_te
 
 def predict(Test_data=Rep_Jan_2020_T, eager=False):
 
-    if(eager == True):
-        tf.enable_eager_execution()
-    tf.logging.set_verbosity(tf.logging.ERROR)
+    if(eager == False):
+        tf.compat.v1.disable_eager_execution()
+    tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
     
     pd.options.display.max_colwidth = 30
     
@@ -94,7 +95,7 @@ def predict(Test_data=Rep_Jan_2020_T, eager=False):
       dataset = dataset.padded_batch(batch_size, dataset.output_shapes)
       dataset = dataset.repeat(num_epoch)
     
-      next_feature, next_label = dataset.make_one_shot_iterator().get_next()
+      next_feature, next_label = tf.compat.v1.data.make_one_shot_iterator(dataset).get_next()
       return {"terms":next_feature}, next_label
     
     sample_feature, sample_label = input_fn(training_set, training_tag)
@@ -102,8 +103,7 @@ def predict(Test_data=Rep_Jan_2020_T, eager=False):
     
     categorical_column = tf.feature_column.categorical_column_with_hash_bucket("terms", 100000)
     
-    my_optimizer = tf.train.AdagradOptimizer(learning_rate=0.1)
-    my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, clip_norm=5.0)
+    my_optimizer = optimizers.SGD(lr=0.1, clipnorm=5.0)
     
     terms_embedding_column = tf.feature_column.embedding_column(categorical_column, dimension=16)
     feature_columns = [terms_embedding_column]
@@ -190,11 +190,11 @@ def predict(Test_data=Rep_Jan_2020_T, eager=False):
         plt.show()
     else:
         def serving_input_receiver_fn():
-            feature_spec = {"terms": tf.placeholder(tf.string, shape=(None, None,))}
+            feature_spec = {"terms": tf.compat.v1.placeholder(tf.string, shape=(None, None,))}
             return tf.estimator.export.build_raw_serving_input_receiver_fn(feature_spec)
         
         input_receiver_fn = serving_input_receiver_fn()
-        dnn_regressor.export_savedmodel("model", input_receiver_fn)
+        dnn_regressor.export_saved_model("model", input_receiver_fn)
     
     predictions = dnn_regressor.predict(input_fn = lambda: input_fn(
                                                           testing_set,
@@ -213,7 +213,7 @@ def predict(Test_data=Rep_Jan_2020_T, eager=False):
     prediction_dataframe = pd.DataFrame()
     prediction_dataframe["consequence"] = Testing_Rep['潜在后果']
     prediction_dataframe["prediction"] = predict_tag
-    display.display(prediction_dataframe.head())
+    print(prediction_dataframe.head())
     prediction_dataframe.to_excel("E:/training_data/zxjh/predictions/prediction.xlsx", sheet_name="result")
     
     return prediction_dataframe
