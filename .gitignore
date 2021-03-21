@@ -1,5 +1,6 @@
 /reports/
 /data/
+nohup.out
 
 *.xlsx
 *.xls
