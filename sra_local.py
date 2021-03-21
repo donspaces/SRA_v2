@@ -14,6 +14,7 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow.keras import optimizers
 import tensorflow_datasets as tfds
+import sys
 import numpy as np
 import jieba
 import jieba.posseg as pseg
@@ -25,6 +26,12 @@ from IPython import display
 import nltk
 from nltk.corpus import stopwords
 import matplotlib.font_manager as fm
+
+# Warning! This project can just be built on PC with tf 2.x, it is
+# recommended by using gpu. It can't be run on server.
+if not tf.__version__.startswith("2"):
+    print("Unable to run, program terminated.", file=sys.stderr)
+    exit(-1)
 
 Rep_Jan_2020_T = pd.read_excel('E:/training_data/zxjh/zxjh-training-data/zxjh_testing data set_202001.xlsx', engine="openpyxl", skiprows=3)
 
