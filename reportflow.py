@@ -38,7 +38,7 @@ def reportflow(pathw):
             gen.data_gen(pth, pth)
             rep.gen_report(pth, pth, pth.strip('.xlsx'))
     except Exception as e:
-        shutil.rmtree('reports/data/' + pathw)
+    #    shutil.rmtree('reports/data/' + pathw)
         print("roll back due to", e.args,".")
 
 if __name__ == '__main__':

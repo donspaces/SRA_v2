@@ -17,7 +17,7 @@ def data_gen(test_set, savename):
     dire = "model/" + file
     print(dire)
 
-    model = tf.contrib.predictor.from_saved_model(dire)
+    model = tf.saved_model.load(dire)
 
     categories = ['C1', 'C2', 'C3', 'C4']
 
@@ -50,7 +50,7 @@ def data_gen(test_set, savename):
         words_array = np.expand_dims(words_array, axis=0)
         print(words_array)
 
-        prediction = model({"inputs":words_array})
+        prediction = model.signatures["serving_default"](tf.constant(words_array))
         scores = list(prediction["scores"][0])
         level = categories[scores.index(max(scores))]
         print(level)

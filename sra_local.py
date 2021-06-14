@@ -99,7 +99,7 @@ def predict(Test_data=Rep_Jan_2020_T, eager=False):
       if shuffle == True:
         dataset.shuffle(90)
     
-      dataset = dataset.padded_batch(batch_size, dataset.output_shapes)
+      dataset = dataset.padded_batch(batch_size, tf.compat.v1.data.get_output_shapes(dataset))
       dataset = dataset.repeat(num_epoch)
     
       next_feature, next_label = tf.compat.v1.data.make_one_shot_iterator(dataset).get_next()
@@ -201,7 +201,8 @@ def predict(Test_data=Rep_Jan_2020_T, eager=False):
             return tf.estimator.export.build_raw_serving_input_receiver_fn(feature_spec)
         
         input_receiver_fn = serving_input_receiver_fn()
-        dnn_regressor.export_saved_model("model", input_receiver_fn)
+        a = dnn_regressor.export_saved_model("model", input_receiver_fn)
+        print(a)
     
     predictions = dnn_regressor.predict(input_fn = lambda: input_fn(
                                                           testing_set,

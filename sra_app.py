@@ -11,7 +11,7 @@ def main():
             pathr = "data/" + i
             if(os.path.isdir(pathr) and not i.startswith(".")):
                 rep.reportflow(i)
-                shutil.rmtree(pathr)
+                shutil.move(pathr, "rest/")
                 print("successfully processed the data.")
         print("all datas in report folder are the latest version.")
     except Exception as e:

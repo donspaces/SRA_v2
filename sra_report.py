@@ -97,6 +97,8 @@ def gen_report(csv, pred, pathn):
             level4+=1
 
     writer = pd.ExcelWriter("reports/" + pathn + "/整改措施评定.xlsx")
+    user_lvl["order"] = test_data["序号"]
+    user_lvl["description"] = test_data["隐患描述"]
     user_lvl["name"] = test_data["发现人"]
     user_lvl["Grade"] = lvl
 
@@ -157,6 +159,8 @@ def gen_report(csv, pred, pathn):
 
     #Show mistakes of human and add them up
     Cmp_data=pd.DataFrame()
+    Cmp_data["order"] = list(test_data["序号"])
+    Cmp_data["description"] = list(test_data["隐患描述"])
     Cmp_data["name"] = list(test_data["发现人"])
     Cmp_data["Human_C"] = list(test_data["严重性"])
     Cmp_data["CPU_C"] = predict['prediction']
