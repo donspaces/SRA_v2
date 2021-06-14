@@ -98,8 +98,8 @@ def gen_report(csv, pred, pathn):
 
     writer = pd.ExcelWriter("reports/" + pathn + "/整改措施评定.xlsx")
     user_lvl["order"] = test_data["序号"]
-    user_lvl["description"] = test_data["隐患描述"]
-    user_lvl["name"] = test_data["发现人"]
+    user_lvl["consequence"] = test_data["整改措施"]
+    user_lvl["name"] = test_data["复查人员"]
     user_lvl["Grade"] = lvl
 
     user_lvl.to_excel(writer,sheet_name="result")
@@ -160,7 +160,7 @@ def gen_report(csv, pred, pathn):
     #Show mistakes of human and add them up
     Cmp_data=pd.DataFrame()
     Cmp_data["order"] = list(test_data["序号"])
-    Cmp_data["description"] = list(test_data["隐患描述"])
+    Cmp_data["consequence"] = list(test_data["潜在后果"])
     Cmp_data["name"] = list(test_data["发现人"])
     Cmp_data["Human_C"] = list(test_data["严重性"])
     Cmp_data["CPU_C"] = predict['prediction']
@@ -169,14 +169,14 @@ def gen_report(csv, pred, pathn):
 
     Cmp_data = Cmp_data[Cmp_data["Human_C"] != Cmp_data["CPU_C"]]
 
-    print(Cmp_data)
+    print(Cmp_data.head())
 
     Cmp_data.to_excel(writer, sheet_name="result")
 
 
     mistakes = Cmp_data["name"].value_counts()
 
-    print(mistakes)
+    print(mistakes.head())
 
     mistakes.to_excel(writer, sheet_name="total")
 

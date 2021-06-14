@@ -48,16 +48,16 @@ def data_gen(test_set, savename):
     for sent in words:
         words_array = np.array(sent)
         words_array = np.expand_dims(words_array, axis=0)
-        print(words_array)
+        # print(words_array)
 
         prediction = model.signatures["serving_default"](tf.constant(words_array))
         scores = list(prediction["scores"][0])
         level = categories[scores.index(max(scores))]
-        print(level)
+        # print(level)
         levels.append(level)
 
     prediction_data = pd.DataFrame()
     prediction_data["consequence"] = sample_data["潜在后果"]
     prediction_data["prediction"] = levels
-    display.display(prediction_data)
+    display.display(prediction_data.head())
     prediction_data.to_excel('reports/' + savename, sheet_name="result")
